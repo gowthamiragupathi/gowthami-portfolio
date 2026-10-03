@@ -1,896 +1,1151 @@
-```javascript
-// ==========================================
-// GOWTHAMI PORTFOLIO - JAVASCRIPT
-// ==========================================
+/* ==========================================
+   GOWTHAMI R PORTFOLIO - MAIN STYLESHEET
+   ========================================== */
 
-document.addEventListener("DOMContentLoaded", function () {
+:root {
+    --primary: #2563eb;
+    --primary-dark: #1d4ed8;
+    --accent: #7c3aed;
+    --text: #0f172a;
+    --muted: #64748b;
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --border: #e2e8f0;
+    --nav-bg: rgba(255,255,255,.92);
+    --shadow: 0 18px 50px rgba(15,23,42,.08);
+    --radius: 20px;
+    --max: 1180px;
+}
 
-    // ==========================================
-    // TYPING ANIMATION
-    // ==========================================
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
 
-    const typingText = document.querySelector(".typing-text");
+html {
+    scroll-behavior: smooth;
+}
 
-    const words = [
-        "AI & Data Science Student",
-        "Machine Learning Enthusiast",
-        "NLP Developer",
-        "Frontend Developer",
-        "Cybersecurity Learner"
-    ];
+body {
+    font-family: "Inter", Arial, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.7;
+    overflow-x: hidden;
+    transition: background .3s ease, color .3s ease;
+}
 
-    let wordIndex = 0;
-    let charIndex = 0;
-    let deleting = false;
+body.dark-mode {
+    --text: #f8fafc;
+    --muted: #94a3b8;
+    --bg: #0b1120;
+    --card: #111827;
+    --border: #263244;
+    --nav-bg: rgba(11,17,32,.94);
+    --shadow: 0 18px 50px rgba(0,0,0,.28);
+}
 
-    function typeEffect() {
+a {
+    color: inherit;
+    text-decoration: none;
+}
 
-        if (!typingText) return;
+img {
+    max-width: 100%;
+    display: block;
+}
 
-        const word = words[wordIndex];
+ul {
+    list-style: none;
+}
 
-        if (!deleting) {
+section {
+    width: 100%;
+    padding: 100px 6%;
+    scroll-margin-top: 80px;
+}
 
-            typingText.textContent =
-                word.substring(0, charIndex);
+section:nth-of-type(even) {
+    background: var(--card);
+}
 
-            charIndex++;
+#progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    z-index: 9999;
+}
 
-            if (charIndex > word.length) {
+.cursor {
+    position: fixed;
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--primary);
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    z-index: 10000;
+    transition: width .2s, height .2s, background .2s;
+}
 
-                deleting = true;
+.cursor.cursor-hover {
+    width: 34px;
+    height: 34px;
+    background: rgba(37,99,235,.12);
+}
 
-                setTimeout(typeEffect, 1500);
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 76px;
+    padding: 18px 6%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    background: var(--nav-bg);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    z-index: 1000;
+    transition: .3s ease;
+}
 
-                return;
-            }
+.logo a {
+    font-family: "Poppins", sans-serif;
+    font-size: 1.7rem;
+    font-weight: 800;
+    color: var(--primary);
+}
 
-        } else {
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
 
-            typingText.textContent =
-                word.substring(0, charIndex);
+.nav-links a {
+    position: relative;
+    color: var(--text);
+    font-size: .92rem;
+    font-weight: 600;
+    transition: color .25s ease;
+}
 
-            charIndex--;
+.nav-links a:hover,
+.nav-links a.active {
+    color: var(--primary);
+}
 
-            if (charIndex < 0) {
+.nav-links a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -7px;
+    width: 0;
+    height: 2px;
+    background: var(--primary);
+    transition: width .25s ease;
+}
 
-                deleting = false;
+.nav-links a:hover::after,
+.nav-links a.active::after {
+    width: 100%;
+}
 
-                charIndex = 0;
+.nav-buttons {
+    display: flex;
+    align-items: center;
+}
 
-                wordIndex++;
+.resume-btn,
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 46px;
+    padding: 11px 22px;
+    border-radius: 10px;
+    font-weight: 700;
+    transition: transform .25s ease, background .25s ease, box-shadow .25s ease;
+}
 
-                if (wordIndex >= words.length) {
-                    wordIndex = 0;
-                }
-            }
-        }
+.resume-btn {
+    background: var(--primary);
+    color: #fff;
+}
 
-        setTimeout(
-            typeEffect,
-            deleting ? 60 : 110
-        );
+.resume-btn:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(37,99,235,.25);
+}
+
+.menu-toggle {
+    display: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* HERO */
+#hero {
+    min-height: 100vh;
+    padding-top: 130px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    background:
+        radial-gradient(circle at 10% 20%, rgba(37,99,235,.10), transparent 30%),
+        radial-gradient(circle at 90% 80%, rgba(124,58,237,.10), transparent 30%),
+        var(--bg);
+}
+
+.hero-container {
+    width: 100%;
+    max-width: var(--max);
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1.05fr .95fr;
+    align-items: center;
+    gap: 70px;
+}
+
+.hero-content {
+    max-width: 680px;
+}
+
+.hero-tag {
+    color: var(--primary);
+    font-weight: 700;
+    margin-bottom: 16px;
+}
+
+.hero-content h1 {
+    font-family: "Poppins", sans-serif;
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    line-height: 1.1;
+    margin-bottom: 12px;
+}
+
+.hero-content h1 span {
+    color: var(--primary);
+}
+
+.hero-content h2 {
+    min-height: 42px;
+    color: var(--accent);
+    font-size: clamp(1.25rem, 3vw, 1.8rem);
+    margin-bottom: 18px;
+}
+
+.hero-description {
+    color: var(--muted);
+    font-size: 1.05rem;
+    max-width: 650px;
+    margin-bottom: 28px;
+}
+
+.hero-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 24px;
+}
+
+.primary-btn {
+    background: var(--primary);
+    color: white;
+}
+
+.primary-btn:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+.social-icons {
+    display: flex;
+    gap: 12px;
+}
+
+.social-icons a,
+.footer-social a {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    background: var(--card);
+    color: var(--primary);
+    transition: .25s ease;
+}
+
+.social-icons a:hover,
+.footer-social a:hover {
+    color: #fff;
+    background: var(--primary);
+    transform: translateY(-3px);
+}
+
+.hero-image {
+    min-height: 480px;
+    display: grid;
+    place-items: center;
+    position: relative;
+}
+
+.image-circle {
+    width: min(430px, 85vw);
+    height: min(430px, 85vw);
+    border-radius: 50%;
+    padding: 12px;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    box-shadow: 0 30px 70px rgba(37,99,235,.20);
+    position: relative;
+    z-index: 2;
+}
+
+.image-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 7px solid var(--card);
+}
+
+.circle {
+    position: absolute;
+    border-radius: 50%;
+    border: 2px solid rgba(37,99,235,.18);
+    animation: float 5s ease-in-out infinite;
+}
+
+.circle.one { width: 470px; height: 470px; }
+.circle.two { width: 540px; height: 540px; animation-delay: .7s; }
+.circle.three { width: 610px; height: 610px; animation-delay: 1.4s; }
+
+@keyframes float {
+    50% { transform: translateY(-10px); }
+}
+
+.scroll-down {
+    position: absolute;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.scroll-down a {
+    color: var(--primary);
+    font-size: 1.4rem;
+    animation: bounce 1.5s infinite;
+}
+
+@keyframes bounce {
+    50% { transform: translateY(7px); }
+}
+
+/* SECTION TITLES */
+.section-title {
+    max-width: 760px;
+    margin: 0 auto 55px;
+    text-align: center;
+}
+
+.section-title h4 {
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: .9rem;
+    margin-bottom: 8px;
+}
+
+.section-title h2 {
+    font-family: "Poppins", sans-serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.2;
+    margin-bottom: 14px;
+}
+
+.section-title p {
+    color: var(--muted);
+}
+
+.section-badge {
+    display: inline-flex;
+    gap: 7px;
+    align-items: center;
+    padding: 7px 13px;
+    border-radius: 50px;
+    background: rgba(37,99,235,.1);
+    color: var(--primary);
+    font-size: .8rem;
+    font-weight: 800;
+    margin-bottom: 14px;
+}
+
+/* ABOUT */
+.about-container {
+    max-width: var(--max);
+    margin: auto;
+    display: grid;
+    grid-template-columns: .8fr 1.2fr;
+    gap: 70px;
+    align-items: center;
+}
+
+.about-card {
+    padding: 12px;
+    border-radius: 26px;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    box-shadow: var(--shadow);
+}
+
+.about-card img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-radius: 18px;
+}
+
+.about-content h4 {
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.about-content > h2 {
+    font-family: "Poppins", sans-serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.2;
+    margin: 8px 0 18px;
+}
+
+.about-content > p {
+    color: var(--muted);
+    margin-bottom: 14px;
+}
+
+.about-info {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin: 28px 0;
+}
+
+.info-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 17px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: var(--card);
+}
+
+.info-card > i {
+    color: var(--primary);
+    font-size: 1.35rem;
+}
+
+.info-card h3 {
+    font-size: .95rem;
+}
+
+.info-card p {
+    color: var(--muted);
+    font-size: .85rem;
+}
+
+.about-stats,
+.achievement-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin: 25px 0 30px;
+}
+
+.stat-box,
+.counter-box {
+    text-align: center;
+    padding: 18px 10px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: var(--card);
+}
+
+.stat-box h2,
+.counter-box h2 {
+    color: var(--primary);
+    font-family: "Poppins", sans-serif;
+}
+
+.stat-box p,
+.counter-box p {
+    color: var(--muted);
+    font-size: .85rem;
+}
+
+/* EDUCATION / EXPERIENCE */
+.timeline,
+.experience-container {
+    max-width: 900px;
+    margin: auto;
+    position: relative;
+}
+
+.timeline::before,
+.experience-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 2px;
+    background: var(--border);
+    transform: translateX(-50%);
+}
+
+.timeline-item,
+.experience-card {
+    position: relative;
+    width: 50%;
+    padding: 12px 40px;
+}
+
+.timeline-item.left {
+    left: 0;
+    text-align: right;
+}
+
+.timeline-item.right {
+    left: 50%;
+}
+
+.timeline-content,
+.experience-content {
+    padding: 24px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--card);
+    box-shadow: var(--shadow);
+}
+
+.timeline-content .year,
+.experience-date {
+    color: var(--primary);
+    font-weight: 800;
+    font-size: .85rem;
+}
+
+.timeline-content h3,
+.experience-content h3 {
+    font-family: "Poppins", sans-serif;
+    margin: 7px 0;
+}
+
+.timeline-content h4,
+.experience-content h4 {
+    color: var(--accent);
+    margin-bottom: 10px;
+}
+
+.timeline-content p,
+.experience-content p {
+    color: var(--muted);
+}
+
+.experience-container::before {
+    display: none;
+}
+
+.experience-card {
+    width: 100%;
+    padding: 12px 0;
+    display: flex;
+    gap: 20px;
+}
+
+.experience-icon {
+    min-width: 54px;
+    height: 54px;
+    display: grid;
+    place-items: center;
+    border-radius: 14px;
+    color: #fff;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+}
+
+.experience-skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.experience-skills span {
+    padding: 5px 10px;
+    border-radius: 20px;
+    background: rgba(37,99,235,.1);
+    color: var(--primary);
+    font-size: .8rem;
+    font-weight: 600;
+}
+
+/* SKILLS */
+.skills-container,
+.projects-container,
+.certificate-container {
+    max-width: var(--max);
+    margin: auto;
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+}
+
+.skill-card,
+.project-card,
+.certificate-card {
+    padding: 25px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--card);
+    box-shadow: var(--shadow);
+    transition: transform .25s ease, border-color .25s ease;
+}
+
+.skill-card:hover,
+.project-card:hover,
+.certificate-card:hover {
+    transform: translateY(-7px);
+    border-color: rgba(37,99,235,.45);
+}
+
+.skill-card i {
+    color: var(--primary);
+    font-size: 2rem;
+    margin-bottom: 14px;
+}
+
+.skill-card h3 {
+    margin-bottom: 8px;
+}
+
+.skill-card p {
+    color: var(--muted);
+    font-size: .9rem;
+}
+
+/* PROJECTS */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+}
+
+.project-image img {
+    width: 100%;
+    height: 210px;
+    object-fit: cover;
+    border-radius: 14px;
+    margin-bottom: 18px;
+}
+
+.project-card h3 {
+    font-family: "Poppins", sans-serif;
+    margin-bottom: 9px;
+}
+
+.project-card p {
+    color: var(--muted);
+    margin-bottom: 15px;
+}
+
+.project-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.project-tech span {
+    padding: 5px 10px;
+    border-radius: 20px;
+    background: rgba(124,58,237,.1);
+    color: var(--accent);
+    font-size: .78rem;
+}
+
+/* CERTIFICATES */
+.certificate-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+}
+
+.certificate-card {
+    display: grid;
+    grid-template-columns: 170px 1fr;
+    gap: 20px;
+}
+
+.certificate-image img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.certificate-content h3 {
+    margin-bottom: 5px;
+}
+
+.certificate-content p,
+.certificate-content span {
+    color: var(--muted);
+}
+
+.certificate-content span {
+    display: block;
+    margin: 5px 0 14px;
+}
+
+.certificate-btn {
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+    color: var(--primary);
+    font-weight: 700;
+}
+
+/* ACHIEVEMENTS */
+.achievements-section {
+    background:
+        radial-gradient(circle at 20% 20%, rgba(37,99,235,.08), transparent 30%),
+        var(--bg);
+}
+
+.achievement-title h2 span {
+    color: var(--primary);
+}
+
+.achievement-timeline {
+    max-width: 950px;
+    margin: auto;
+    display: grid;
+    gap: 20px;
+}
+
+.achievement-item {
+    display: grid;
+    grid-template-columns: 55px 45px 1fr;
+    gap: 15px;
+    align-items: start;
+}
+
+.achievement-number {
+    color: var(--primary);
+    font-weight: 800;
+    padding-top: 24px;
+}
+
+.achievement-line {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.achievement-line::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: -20px;
+    width: 2px;
+    background: var(--border);
+}
+
+.achievement-dot {
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    color: white;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    position: relative;
+    z-index: 1;
+}
+
+.achievement-card {
+    padding: 24px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--card);
+    box-shadow: var(--shadow);
+}
+
+.achievement-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.achievement-icon {
+    color: var(--primary);
+    font-size: 1.4rem;
+}
+
+.achievement-year {
+    color: var(--muted);
+    font-weight: 700;
+}
+
+.achievement-content h3 {
+    margin: 8px 0;
+}
+
+.achievement-content p {
+    color: var(--muted);
+}
+
+.achievement-category {
+    color: var(--primary);
+    font-size: .8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+/* CONTACT */
+.contact-container {
+    max-width: 1000px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+}
+
+.contact-info {
+    display: grid;
+    gap: 14px;
+}
+
+.contact-card {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    padding: 20px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: var(--card);
+}
+
+.contact-card > i {
+    color: var(--primary);
+    font-size: 1.3rem;
+}
+
+.contact-card p {
+    color: var(--muted);
+}
+
+/* FOOTER */
+#footer {
+    padding: 70px 6% 25px;
+    color: #cbd5e1;
+    background: #0f172a;
+}
+
+.footer-container {
+    max-width: var(--max);
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1.2fr;
+    gap: 50px;
+}
+
+#footer h2,
+#footer h3 {
+    color: #fff;
+    margin-bottom: 14px;
+}
+
+.footer-about p,
+.footer-contact p {
+    color: #94a3b8;
+}
+
+.footer-social {
+    display: flex;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.footer-links ul {
+    display: grid;
+    gap: 7px;
+}
+
+.footer-links a:hover {
+    color: #fff;
+}
+
+.footer-contact {
+    display: grid;
+    align-content: start;
+    gap: 6px;
+}
+
+.footer-bottom {
+    max-width: var(--max);
+    margin: 40px auto 0;
+    padding-top: 20px;
+    border-top: 1px solid #263244;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.footer-bottom p {
+    color: #94a3b8;
+}
+
+#scrollTop {
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+    width: 46px;
+    height: 46px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    color: #fff;
+    background: var(--primary);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(15px);
+    transition: .25s ease;
+    z-index: 900;
+}
+
+#scrollTop.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* SCROLL REVEAL */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity .7s ease, transform .7s ease;
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+section.visible > * {
+    animation: sectionIn .7s ease both;
+}
+
+@keyframes sectionIn {
+    from { opacity: .3; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* MOBILE */
+@media (max-width: 1000px) {
+    .nav-links {
+        gap: 14px;
     }
 
-    if (typingText) {
-        typeEffect();
+    .hero-container,
+    .about-container {
+        grid-template-columns: 1fr;
+        text-align: center;
     }
 
-
-    // ==========================================
-    // NAVBAR SCROLL EFFECT
-    // ==========================================
-
-    const navbar =
-        document.querySelector(".navbar");
-
-    function navbarScroll() {
-
-        if (!navbar) return;
-
-        if (window.scrollY > 50) {
-
-            navbar.classList.add("scrolled");
-
-        } else {
-
-            navbar.classList.remove("scrolled");
-        }
+    .hero-content {
+        margin: auto;
     }
 
-    window.addEventListener(
-        "scroll",
-        navbarScroll
-    );
-
-    navbarScroll();
-
-
-    // ==========================================
-    // MOBILE MENU
-    // ==========================================
-
-    const menuToggle =
-        document.querySelector(".menu-toggle");
-
-    const navLinksContainer =
-        document.querySelector(".nav-links");
-
-    if (menuToggle && navLinksContainer) {
-
-        menuToggle.addEventListener(
-            "click",
-            function () {
-
-                navLinksContainer.classList.toggle(
-                    "show"
-                );
-
-                menuToggle.classList.toggle(
-                    "active"
-                );
-
-            }
-        );
+    .hero-buttons,
+    .social-icons {
+        justify-content: center;
     }
 
-
-    // ==========================================
-    // CLOSE MOBILE MENU
-    // ==========================================
-
-    const navLinks =
-        document.querySelectorAll(
-            ".nav-links a"
-        );
-
-    navLinks.forEach(function (link) {
-
-        link.addEventListener(
-            "click",
-            function () {
-
-                if (navLinksContainer) {
-
-                    navLinksContainer.classList.remove(
-                        "show"
-                    );
-                }
-
-                if (menuToggle) {
-
-                    menuToggle.classList.remove(
-                        "active"
-                    );
-                }
-
-            }
-        );
-
-    });
-
-
-    // ==========================================
-    // ACTIVE NAVIGATION
-    // ==========================================
-
-    const sections =
-        document.querySelectorAll("section");
-
-    function updateActiveNav() {
-
-        let currentSection = "";
-
-        sections.forEach(function (section) {
-
-            const sectionTop =
-                section.offsetTop - 180;
-
-            const sectionBottom =
-                sectionTop +
-                section.offsetHeight;
-
-            if (
-                window.scrollY >= sectionTop &&
-                window.scrollY < sectionBottom
-            ) {
-
-                currentSection =
-                    section.getAttribute("id");
-            }
-
-        });
-
-        navLinks.forEach(function (link) {
-
-            link.classList.remove("active");
-
-            const href =
-                link.getAttribute("href");
-
-            if (
-                href === "#" + currentSection
-            ) {
-
-                link.classList.add("active");
-            }
-
-        });
-
+    .hero-image {
+        min-height: 400px;
     }
 
-    window.addEventListener(
-        "scroll",
-        updateActiveNav
-    );
-
-    updateActiveNav();
-
-
-    // ==========================================
-    // GENERAL SCROLL REVEAL
-    // ==========================================
-
-    const revealElements =
-        document.querySelectorAll(
-            ".reveal"
-        );
-
-    if (
-        revealElements.length > 0 &&
-        "IntersectionObserver" in window
-    ) {
-
-        const revealObserver =
-            new IntersectionObserver(
-                function (entries, observer) {
-
-                    entries.forEach(
-                        function (entry) {
-
-                            if (
-                                entry.isIntersecting
-                            ) {
-
-                                entry.target.classList.add(
-                                    "visible"
-                                );
-
-                                observer.unobserve(
-                                    entry.target
-                                );
-                            }
-
-                        }
-                    );
-
-                },
-                {
-                    threshold: 0.15
-                }
-            );
-
-        revealElements.forEach(
-            function (element) {
-
-                revealObserver.observe(
-                    element
-                );
-
-            }
-        );
+    .about-image {
+        max-width: 500px;
+        margin: auto;
     }
 
-
-    // ==========================================
-    // ACHIEVEMENT ANIMATION
-    // ==========================================
-
-    const achievementCards =
-        document.querySelectorAll(
-            "#achievements .achievement-card"
-        );
-
-    if (
-        achievementCards.length > 0 &&
-        "IntersectionObserver" in window
-    ) {
-
-        achievementCards.forEach(
-            function (card, index) {
-
-                card.style.opacity = "0";
-
-                card.style.transform =
-                    "translateY(40px)";
-
-                card.style.transition =
-                    "opacity .7s ease " +
-                    (index * 150) +
-                    "ms, transform .7s ease " +
-                    (index * 150) +
-                    "ms";
-            }
-        );
-
-
-        const achievementObserver =
-            new IntersectionObserver(
-                function (entries, observer) {
-
-                    entries.forEach(
-                        function (entry) {
-
-                            if (
-                                entry.isIntersecting
-                            ) {
-
-                                entry.target.style.opacity =
-                                    "1";
-
-                                entry.target.style.transform =
-                                    "translateY(0)";
-
-                                observer.unobserve(
-                                    entry.target
-                                );
-                            }
-
-                        }
-                    );
-
-                },
-                {
-                    threshold: 0.15
-                }
-            );
-
-
-        achievementCards.forEach(
-            function (card) {
-
-                achievementObserver.observe(
-                    card
-                );
-
-            }
-        );
+    .skills-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
 
+    .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
 
-    // ==========================================
-    // ACHIEVEMENT COUNTER
-    // ==========================================
-
-    const counters =
-        document.querySelectorAll(
-            ".counter"
-        );
-
-    let countersStarted = false;
-
-    function startCounters() {
-
-        if (countersStarted) return;
-
-        countersStarted = true;
-
-        counters.forEach(
-            function (counter) {
-
-                const target =
-                    parseInt(
-                        counter.getAttribute(
-                            "data-target"
-                        ),
-                        10
-                    );
-
-                if (isNaN(target)) return;
-
-                let current = 0;
-
-                const duration = 1200;
-
-                const stepTime =
-                    Math.max(
-                        20,
-                        Math.floor(
-                            duration / target
-                        )
-                    );
-
-                const timer =
-                    setInterval(
-                        function () {
-
-                            current++;
-
-                            counter.textContent =
-                                current;
-
-                            if (
-                                current >= target
-                            ) {
-
-                                clearInterval(timer);
-
-                                counter.textContent =
-                                    target;
-                            }
-
-                        },
-                        stepTime
-                    );
-
-            }
-        );
+@media (max-width: 780px) {
+    section {
+        padding: 80px 5%;
     }
 
-
-    const achievementStats =
-        document.querySelector(
-            ".achievement-stats"
-        );
-
-    if (
-        achievementStats &&
-        counters.length > 0 &&
-        "IntersectionObserver" in window
-    ) {
-
-        const counterObserver =
-            new IntersectionObserver(
-                function (entries, observer) {
-
-                    if (
-                        entries[0].isIntersecting
-                    ) {
-
-                        startCounters();
-
-                        observer.unobserve(
-                            achievementStats
-                        );
-                    }
-
-                },
-                {
-                    threshold: 0.3
-                }
-            );
-
-        counterObserver.observe(
-            achievementStats
-        );
-
+    .navbar {
+        padding: 15px 5%;
     }
 
-
-    // ==========================================
-    // DARK / LIGHT MODE
-    // ==========================================
-
-    const themeToggle =
-        document.getElementById(
-            "themeToggle"
-        );
-
-
-    function setTheme(theme) {
-
-        if (theme === "dark") {
-
-            document.body.classList.add(
-                "dark-mode"
-            );
-
-        } else {
-
-            document.body.classList.remove(
-                "dark-mode"
-            );
-        }
-
-        localStorage.setItem(
-            "gowthami-theme",
-            theme
-        );
-
-        updateThemeIcon();
+    .nav-buttons {
+        display: none;
     }
 
-
-    function updateThemeIcon() {
-
-        if (!themeToggle) return;
-
-        const icon =
-            themeToggle.querySelector("i");
-
-        if (!icon) return;
-
-        const darkMode =
-            document.body.classList.contains(
-                "dark-mode"
-            );
-
-        if (darkMode) {
-
-            icon.classList.remove(
-                "fa-moon"
-            );
-
-            icon.classList.add(
-                "fa-sun"
-            );
-
-            themeToggle.setAttribute(
-                "title",
-                "Switch to Light Mode"
-            );
-
-            themeToggle.setAttribute(
-                "aria-label",
-                "Switch to Light Mode"
-            );
-
-        } else {
-
-            icon.classList.remove(
-                "fa-sun"
-            );
-
-            icon.classList.add(
-                "fa-moon"
-            );
-
-            themeToggle.setAttribute(
-                "title",
-                "Switch to Dark Mode"
-            );
-
-            themeToggle.setAttribute(
-                "aria-label",
-                "Switch to Dark Mode"
-            );
-        }
+    .menu-toggle {
+        display: block;
     }
 
-
-    // Load saved theme
-
-    const savedTheme =
-        localStorage.getItem(
-            "gowthami-theme"
-        );
-
-
-    if (savedTheme === "dark") {
-
-        setTheme("dark");
-
-    } else if (savedTheme === "light") {
-
-        setTheme("light");
-
-    } else {
-
-        // First visit:
-        // use system preference
-
-        const systemDark =
-            window.matchMedia &&
-            window.matchMedia(
-                "(prefers-color-scheme: dark)"
-            ).matches;
-
-        if (systemDark) {
-
-            setTheme("dark");
-
-        } else {
-
-            setTheme("light");
-        }
+    .nav-links {
+        position: absolute;
+        top: 76px;
+        left: 5%;
+        right: 5%;
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        padding: 12px;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        background: var(--card);
+        box-shadow: var(--shadow);
     }
 
-
-    // Theme button
-
-    if (themeToggle) {
-
-        themeToggle.addEventListener(
-            "click",
-            function () {
-
-                const darkMode =
-                    document.body.classList.contains(
-                        "dark-mode"
-                    );
-
-                setTheme(
-                    darkMode
-                        ? "light"
-                        : "dark"
-                );
-
-
-                // Button animation
-
-                themeToggle.style.transform =
-                    "rotate(360deg) scale(1.1)";
-
-                setTimeout(
-                    function () {
-
-                        themeToggle.style.transform =
-                            "";
-
-                    },
-                    450
-                );
-
-            }
-        );
+    .nav-links.show {
+        display: flex;
     }
 
-
-    // ==========================================
-    // SCROLL PROGRESS BAR
-    // ==========================================
-
-    const progressBar =
-        document.getElementById(
-            "progress-bar"
-        );
-
-    function updateProgress() {
-
-        if (!progressBar) return;
-
-        const scrollTop =
-            window.scrollY;
-
-        const documentHeight =
-            document.documentElement
-                .scrollHeight;
-
-        const windowHeight =
-            window.innerHeight;
-
-        const total =
-            documentHeight -
-            windowHeight;
-
-        if (total <= 0) {
-
-            progressBar.style.width =
-                "0%";
-
-            return;
-        }
-
-        const percentage =
-            (scrollTop / total) * 100;
-
-        progressBar.style.width =
-            percentage + "%";
+    .nav-links li a {
+        display: block;
+        padding: 12px;
     }
 
-    window.addEventListener(
-        "scroll",
-        updateProgress
-    );
-
-    updateProgress();
-
-
-    // ==========================================
-    // CUSTOM CURSOR
-    // ==========================================
-
-    const cursor =
-        document.querySelector(
-            ".cursor"
-        );
-
-    if (cursor) {
-
-        document.addEventListener(
-            "mousemove",
-            function (event) {
-
-                cursor.style.left =
-                    event.clientX + "px";
-
-                cursor.style.top =
-                    event.clientY + "px";
-
-            }
-        );
-
-
-        const interactiveElements =
-            document.querySelectorAll(
-                "a, button, .skill-card, .project-card, .achievement-card"
-            );
-
-
-        interactiveElements.forEach(
-            function (element) {
-
-                element.addEventListener(
-                    "mouseenter",
-                    function () {
-
-                        cursor.classList.add(
-                            "cursor-hover"
-                        );
-
-                    }
-                );
-
-
-                element.addEventListener(
-                    "mouseleave",
-                    function () {
-
-                        cursor.classList.remove(
-                            "cursor-hover"
-                        );
-
-                    }
-                );
-
-            }
-        );
+    .nav-links a::after {
+        display: none;
     }
 
-
-    // ==========================================
-    // SCROLL TO TOP
-    // ==========================================
-
-    const topButton =
-        document.getElementById(
-            "scrollTop"
-        );
-
-
-    function updateTopButton() {
-
-        if (!topButton) return;
-
-        if (window.scrollY > 500) {
-
-            topButton.classList.add(
-                "show"
-            );
-
-        } else {
-
-            topButton.classList.remove(
-                "show"
-            );
-        }
+    .hero-content h1 {
+        font-size: 2.8rem;
     }
 
-    window.addEventListener(
-        "scroll",
-        updateTopButton
-    );
+    .circle.one { width: 350px; height: 350px; }
+    .circle.two { width: 410px; height: 410px; }
+    .circle.three { width: 470px; height: 470px; }
 
-    updateTopButton();
-
-
-    if (topButton) {
-
-        topButton.addEventListener(
-            "click",
-            function () {
-
-                window.scrollTo({
-                    top: 0,
-                    behavior: "smooth"
-                });
-
-            }
-        );
+    .about-info,
+    .about-stats,
+    .achievement-stats,
+    .contact-container,
+    .certificate-container,
+    .footer-container {
+        grid-template-columns: 1fr;
     }
 
+    .timeline::before {
+        left: 12px;
+    }
 
-    // ==========================================
-    // SMOOTH SCROLL
-    // ==========================================
+    .timeline-item,
+    .timeline-item.left,
+    .timeline-item.right {
+        width: 100%;
+        left: 0;
+        padding: 10px 0 10px 35px;
+        text-align: left;
+    }
 
-    document.querySelectorAll(
-        'a[href^="#"]'
-    ).forEach(
-        function (anchor) {
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
 
-            anchor.addEventListener(
-                "click",
-                function (event) {
+    .certificate-card {
+        grid-template-columns: 1fr;
+    }
 
-                    const targetId =
-                        this.getAttribute(
-                            "href"
-                        );
+    .achievement-item {
+        grid-template-columns: 40px 35px 1fr;
+    }
 
-                    if (
-                        !targetId ||
-                        targetId === "#"
-                    ) {
-                        return;
-                    }
+    .cursor {
+        display: none;
+    }
+}
 
-                    const target =
-                        document.querySelector(
-                            targetId
-                        );
+@media (max-width: 520px) {
+    section {
+        padding: 65px 4%;
+    }
 
-                    if (target) {
+    .hero-content h1 {
+        font-size: 2.25rem;
+    }
 
-                        event.preventDefault();
+    .hero-content h2 {
+        font-size: 1.2rem;
+    }
 
-                        target.scrollIntoView({
-                            behavior: "smooth",
-                            block: "start"
-                        });
-                    }
+    .hero-description {
+        font-size: .95rem;
+    }
 
-                }
-            );
+    .hero-image {
+        min-height: 320px;
+    }
 
-        }
-    );
+    .image-circle {
+        width: 280px;
+        height: 280px;
+    }
 
+    .circle.one { width: 310px; height: 310px; }
+    .circle.two { width: 350px; height: 350px; }
+    .circle.three { width: 390px; height: 390px; }
 
-    // ==========================================
-    // KEYBOARD THEME SHORTCUT
-    // D = DARK / LIGHT
-    // ==========================================
+    .skills-grid {
+        grid-template-columns: 1fr;
+    }
 
-    document.addEventListener(
-        "keydown",
-        function (event) {
+    .about-stats,
+    .achievement-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
 
-            const tag =
-                document.activeElement
-                    ? document.activeElement.tagName
-                    : "";
+    .achievement-item {
+        grid-template-columns: 1fr;
+    }
 
-            if (
-                event.key.toLowerCase() === "d" &&
-                tag !== "INPUT" &&
-                tag !== "TEXTAREA"
-            ) {
+    .achievement-number,
+    .achievement-line {
+        display: none;
+    }
 
-                if (themeToggle) {
-                    themeToggle.click();
-                }
-            }
-
-        }
-    );
-
-
-    // ==========================================
-    // CONSOLE
-    // ==========================================
-
-    console.log(
-        "Gowthami Portfolio 🚀"
-    );
-
-    console.log(
-        "Dark / Light Theme Ready 🌗"
-    );
-
-    console.log(
-        "Achievements Ready 🏆"
-    );
-
-});
-```
+    .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+    }
+}
