@@ -1,0 +1,896 @@
+```javascript
+// ==========================================
+// GOWTHAMI PORTFOLIO - JAVASCRIPT
+// ==========================================
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    // ==========================================
+    // TYPING ANIMATION
+    // ==========================================
+
+    const typingText = document.querySelector(".typing-text");
+
+    const words = [
+        "AI & Data Science Student",
+        "Machine Learning Enthusiast",
+        "NLP Developer",
+        "Frontend Developer",
+        "Cybersecurity Learner"
+    ];
+
+    let wordIndex = 0;
+    let charIndex = 0;
+    let deleting = false;
+
+    function typeEffect() {
+
+        if (!typingText) return;
+
+        const word = words[wordIndex];
+
+        if (!deleting) {
+
+            typingText.textContent =
+                word.substring(0, charIndex);
+
+            charIndex++;
+
+            if (charIndex > word.length) {
+
+                deleting = true;
+
+                setTimeout(typeEffect, 1500);
+
+                return;
+            }
+
+        } else {
+
+            typingText.textContent =
+                word.substring(0, charIndex);
+
+            charIndex--;
+
+            if (charIndex < 0) {
+
+                deleting = false;
+
+                charIndex = 0;
+
+                wordIndex++;
+
+                if (wordIndex >= words.length) {
+                    wordIndex = 0;
+                }
+            }
+        }
+
+        setTimeout(
+            typeEffect,
+            deleting ? 60 : 110
+        );
+    }
+
+    if (typingText) {
+        typeEffect();
+    }
+
+
+    // ==========================================
+    // NAVBAR SCROLL EFFECT
+    // ==========================================
+
+    const navbar =
+        document.querySelector(".navbar");
+
+    function navbarScroll() {
+
+        if (!navbar) return;
+
+        if (window.scrollY > 50) {
+
+            navbar.classList.add("scrolled");
+
+        } else {
+
+            navbar.classList.remove("scrolled");
+        }
+    }
+
+    window.addEventListener(
+        "scroll",
+        navbarScroll
+    );
+
+    navbarScroll();
+
+
+    // ==========================================
+    // MOBILE MENU
+    // ==========================================
+
+    const menuToggle =
+        document.querySelector(".menu-toggle");
+
+    const navLinksContainer =
+        document.querySelector(".nav-links");
+
+    if (menuToggle && navLinksContainer) {
+
+        menuToggle.addEventListener(
+            "click",
+            function () {
+
+                navLinksContainer.classList.toggle(
+                    "show"
+                );
+
+                menuToggle.classList.toggle(
+                    "active"
+                );
+
+            }
+        );
+    }
+
+
+    // ==========================================
+    // CLOSE MOBILE MENU
+    // ==========================================
+
+    const navLinks =
+        document.querySelectorAll(
+            ".nav-links a"
+        );
+
+    navLinks.forEach(function (link) {
+
+        link.addEventListener(
+            "click",
+            function () {
+
+                if (navLinksContainer) {
+
+                    navLinksContainer.classList.remove(
+                        "show"
+                    );
+                }
+
+                if (menuToggle) {
+
+                    menuToggle.classList.remove(
+                        "active"
+                    );
+                }
+
+            }
+        );
+
+    });
+
+
+    // ==========================================
+    // ACTIVE NAVIGATION
+    // ==========================================
+
+    const sections =
+        document.querySelectorAll("section");
+
+    function updateActiveNav() {
+
+        let currentSection = "";
+
+        sections.forEach(function (section) {
+
+            const sectionTop =
+                section.offsetTop - 180;
+
+            const sectionBottom =
+                sectionTop +
+                section.offsetHeight;
+
+            if (
+                window.scrollY >= sectionTop &&
+                window.scrollY < sectionBottom
+            ) {
+
+                currentSection =
+                    section.getAttribute("id");
+            }
+
+        });
+
+        navLinks.forEach(function (link) {
+
+            link.classList.remove("active");
+
+            const href =
+                link.getAttribute("href");
+
+            if (
+                href === "#" + currentSection
+            ) {
+
+                link.classList.add("active");
+            }
+
+        });
+
+    }
+
+    window.addEventListener(
+        "scroll",
+        updateActiveNav
+    );
+
+    updateActiveNav();
+
+
+    // ==========================================
+    // GENERAL SCROLL REVEAL
+    // ==========================================
+
+    const revealElements =
+        document.querySelectorAll(
+            ".reveal"
+        );
+
+    if (
+        revealElements.length > 0 &&
+        "IntersectionObserver" in window
+    ) {
+
+        const revealObserver =
+            new IntersectionObserver(
+                function (entries, observer) {
+
+                    entries.forEach(
+                        function (entry) {
+
+                            if (
+                                entry.isIntersecting
+                            ) {
+
+                                entry.target.classList.add(
+                                    "visible"
+                                );
+
+                                observer.unobserve(
+                                    entry.target
+                                );
+                            }
+
+                        }
+                    );
+
+                },
+                {
+                    threshold: 0.15
+                }
+            );
+
+        revealElements.forEach(
+            function (element) {
+
+                revealObserver.observe(
+                    element
+                );
+
+            }
+        );
+    }
+
+
+    // ==========================================
+    // ACHIEVEMENT ANIMATION
+    // ==========================================
+
+    const achievementCards =
+        document.querySelectorAll(
+            "#achievements .achievement-card"
+        );
+
+    if (
+        achievementCards.length > 0 &&
+        "IntersectionObserver" in window
+    ) {
+
+        achievementCards.forEach(
+            function (card, index) {
+
+                card.style.opacity = "0";
+
+                card.style.transform =
+                    "translateY(40px)";
+
+                card.style.transition =
+                    "opacity .7s ease " +
+                    (index * 150) +
+                    "ms, transform .7s ease " +
+                    (index * 150) +
+                    "ms";
+            }
+        );
+
+
+        const achievementObserver =
+            new IntersectionObserver(
+                function (entries, observer) {
+
+                    entries.forEach(
+                        function (entry) {
+
+                            if (
+                                entry.isIntersecting
+                            ) {
+
+                                entry.target.style.opacity =
+                                    "1";
+
+                                entry.target.style.transform =
+                                    "translateY(0)";
+
+                                observer.unobserve(
+                                    entry.target
+                                );
+                            }
+
+                        }
+                    );
+
+                },
+                {
+                    threshold: 0.15
+                }
+            );
+
+
+        achievementCards.forEach(
+            function (card) {
+
+                achievementObserver.observe(
+                    card
+                );
+
+            }
+        );
+    }
+
+
+    // ==========================================
+    // ACHIEVEMENT COUNTER
+    // ==========================================
+
+    const counters =
+        document.querySelectorAll(
+            ".counter"
+        );
+
+    let countersStarted = false;
+
+    function startCounters() {
+
+        if (countersStarted) return;
+
+        countersStarted = true;
+
+        counters.forEach(
+            function (counter) {
+
+                const target =
+                    parseInt(
+                        counter.getAttribute(
+                            "data-target"
+                        ),
+                        10
+                    );
+
+                if (isNaN(target)) return;
+
+                let current = 0;
+
+                const duration = 1200;
+
+                const stepTime =
+                    Math.max(
+                        20,
+                        Math.floor(
+                            duration / target
+                        )
+                    );
+
+                const timer =
+                    setInterval(
+                        function () {
+
+                            current++;
+
+                            counter.textContent =
+                                current;
+
+                            if (
+                                current >= target
+                            ) {
+
+                                clearInterval(timer);
+
+                                counter.textContent =
+                                    target;
+                            }
+
+                        },
+                        stepTime
+                    );
+
+            }
+        );
+    }
+
+
+    const achievementStats =
+        document.querySelector(
+            ".achievement-stats"
+        );
+
+    if (
+        achievementStats &&
+        counters.length > 0 &&
+        "IntersectionObserver" in window
+    ) {
+
+        const counterObserver =
+            new IntersectionObserver(
+                function (entries, observer) {
+
+                    if (
+                        entries[0].isIntersecting
+                    ) {
+
+                        startCounters();
+
+                        observer.unobserve(
+                            achievementStats
+                        );
+                    }
+
+                },
+                {
+                    threshold: 0.3
+                }
+            );
+
+        counterObserver.observe(
+            achievementStats
+        );
+
+    }
+
+
+    // ==========================================
+    // DARK / LIGHT MODE
+    // ==========================================
+
+    const themeToggle =
+        document.getElementById(
+            "themeToggle"
+        );
+
+
+    function setTheme(theme) {
+
+        if (theme === "dark") {
+
+            document.body.classList.add(
+                "dark-mode"
+            );
+
+        } else {
+
+            document.body.classList.remove(
+                "dark-mode"
+            );
+        }
+
+        localStorage.setItem(
+            "gowthami-theme",
+            theme
+        );
+
+        updateThemeIcon();
+    }
+
+
+    function updateThemeIcon() {
+
+        if (!themeToggle) return;
+
+        const icon =
+            themeToggle.querySelector("i");
+
+        if (!icon) return;
+
+        const darkMode =
+            document.body.classList.contains(
+                "dark-mode"
+            );
+
+        if (darkMode) {
+
+            icon.classList.remove(
+                "fa-moon"
+            );
+
+            icon.classList.add(
+                "fa-sun"
+            );
+
+            themeToggle.setAttribute(
+                "title",
+                "Switch to Light Mode"
+            );
+
+            themeToggle.setAttribute(
+                "aria-label",
+                "Switch to Light Mode"
+            );
+
+        } else {
+
+            icon.classList.remove(
+                "fa-sun"
+            );
+
+            icon.classList.add(
+                "fa-moon"
+            );
+
+            themeToggle.setAttribute(
+                "title",
+                "Switch to Dark Mode"
+            );
+
+            themeToggle.setAttribute(
+                "aria-label",
+                "Switch to Dark Mode"
+            );
+        }
+    }
+
+
+    // Load saved theme
+
+    const savedTheme =
+        localStorage.getItem(
+            "gowthami-theme"
+        );
+
+
+    if (savedTheme === "dark") {
+
+        setTheme("dark");
+
+    } else if (savedTheme === "light") {
+
+        setTheme("light");
+
+    } else {
+
+        // First visit:
+        // use system preference
+
+        const systemDark =
+            window.matchMedia &&
+            window.matchMedia(
+                "(prefers-color-scheme: dark)"
+            ).matches;
+
+        if (systemDark) {
+
+            setTheme("dark");
+
+        } else {
+
+            setTheme("light");
+        }
+    }
+
+
+    // Theme button
+
+    if (themeToggle) {
+
+        themeToggle.addEventListener(
+            "click",
+            function () {
+
+                const darkMode =
+                    document.body.classList.contains(
+                        "dark-mode"
+                    );
+
+                setTheme(
+                    darkMode
+                        ? "light"
+                        : "dark"
+                );
+
+
+                // Button animation
+
+                themeToggle.style.transform =
+                    "rotate(360deg) scale(1.1)";
+
+                setTimeout(
+                    function () {
+
+                        themeToggle.style.transform =
+                            "";
+
+                    },
+                    450
+                );
+
+            }
+        );
+    }
+
+
+    // ==========================================
+    // SCROLL PROGRESS BAR
+    // ==========================================
+
+    const progressBar =
+        document.getElementById(
+            "progress-bar"
+        );
+
+    function updateProgress() {
+
+        if (!progressBar) return;
+
+        const scrollTop =
+            window.scrollY;
+
+        const documentHeight =
+            document.documentElement
+                .scrollHeight;
+
+        const windowHeight =
+            window.innerHeight;
+
+        const total =
+            documentHeight -
+            windowHeight;
+
+        if (total <= 0) {
+
+            progressBar.style.width =
+                "0%";
+
+            return;
+        }
+
+        const percentage =
+            (scrollTop / total) * 100;
+
+        progressBar.style.width =
+            percentage + "%";
+    }
+
+    window.addEventListener(
+        "scroll",
+        updateProgress
+    );
+
+    updateProgress();
+
+
+    // ==========================================
+    // CUSTOM CURSOR
+    // ==========================================
+
+    const cursor =
+        document.querySelector(
+            ".cursor"
+        );
+
+    if (cursor) {
+
+        document.addEventListener(
+            "mousemove",
+            function (event) {
+
+                cursor.style.left =
+                    event.clientX + "px";
+
+                cursor.style.top =
+                    event.clientY + "px";
+
+            }
+        );
+
+
+        const interactiveElements =
+            document.querySelectorAll(
+                "a, button, .skill-card, .project-card, .achievement-card"
+            );
+
+
+        interactiveElements.forEach(
+            function (element) {
+
+                element.addEventListener(
+                    "mouseenter",
+                    function () {
+
+                        cursor.classList.add(
+                            "cursor-hover"
+                        );
+
+                    }
+                );
+
+
+                element.addEventListener(
+                    "mouseleave",
+                    function () {
+
+                        cursor.classList.remove(
+                            "cursor-hover"
+                        );
+
+                    }
+                );
+
+            }
+        );
+    }
+
+
+    // ==========================================
+    // SCROLL TO TOP
+    // ==========================================
+
+    const topButton =
+        document.getElementById(
+            "scrollTop"
+        );
+
+
+    function updateTopButton() {
+
+        if (!topButton) return;
+
+        if (window.scrollY > 500) {
+
+            topButton.classList.add(
+                "show"
+            );
+
+        } else {
+
+            topButton.classList.remove(
+                "show"
+            );
+        }
+    }
+
+    window.addEventListener(
+        "scroll",
+        updateTopButton
+    );
+
+    updateTopButton();
+
+
+    if (topButton) {
+
+        topButton.addEventListener(
+            "click",
+            function () {
+
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                });
+
+            }
+        );
+    }
+
+
+    // ==========================================
+    // SMOOTH SCROLL
+    // ==========================================
+
+    document.querySelectorAll(
+        'a[href^="#"]'
+    ).forEach(
+        function (anchor) {
+
+            anchor.addEventListener(
+                "click",
+                function (event) {
+
+                    const targetId =
+                        this.getAttribute(
+                            "href"
+                        );
+
+                    if (
+                        !targetId ||
+                        targetId === "#"
+                    ) {
+                        return;
+                    }
+
+                    const target =
+                        document.querySelector(
+                            targetId
+                        );
+
+                    if (target) {
+
+                        event.preventDefault();
+
+                        target.scrollIntoView({
+                            behavior: "smooth",
+                            block: "start"
+                        });
+                    }
+
+                }
+            );
+
+        }
+    );
+
+
+    // ==========================================
+    // KEYBOARD THEME SHORTCUT
+    // D = DARK / LIGHT
+    // ==========================================
+
+    document.addEventListener(
+        "keydown",
+        function (event) {
+
+            const tag =
+                document.activeElement
+                    ? document.activeElement.tagName
+                    : "";
+
+            if (
+                event.key.toLowerCase() === "d" &&
+                tag !== "INPUT" &&
+                tag !== "TEXTAREA"
+            ) {
+
+                if (themeToggle) {
+                    themeToggle.click();
+                }
+            }
+
+        }
+    );
+
+
+    // ==========================================
+    // CONSOLE
+    // ==========================================
+
+    console.log(
+        "Gowthami Portfolio 🚀"
+    );
+
+    console.log(
+        "Dark / Light Theme Ready 🌗"
+    );
+
+    console.log(
+        "Achievements Ready 🏆"
+    );
+
+});
+```
